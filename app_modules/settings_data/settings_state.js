@@ -102,6 +102,11 @@ module.exports = class Settings_state extends React.Component {
     clearForm() {
         this.setState({ currentPassword: '', newPassword: '' })
     }
+    
+    hideAlerts() {
+        document.getElementById('pass-success').style.display = 'block';
+        document.getElementById('pass-error').style.display = 'block';
+    }
 
     render() {
         return <SettingsPage 
