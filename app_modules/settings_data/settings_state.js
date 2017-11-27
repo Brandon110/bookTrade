@@ -59,37 +59,38 @@ module.exports = class Settings_state extends React.Component {
                 return err;
             })
     }
-    
-     handleCurrentPassword(e) {
-      this.setState({ currentPassword: e.target.value });   
+
+    handleCurrentPassword(e) {
+        this.setState({ currentPassword: e.target.value });
     }
-    
+
     handleNewPassword(e) {
-      this.setState({ newPassword: e.target.value });
+        this.setState({ newPassword: e.target.value });
     }
-    
+
     handleChangePassword(e) {
         e.preventDefault();
-        
-        if(!this.state.currentPassword) return false;
-        
+
+        if (!this.state.currentPassword) return false;
+
         let res = '';
-    
-    let sendingData = axios.post('/change/password', {
-            currPassword: this.state.currentPassword,
-            newPassword: this.state.newPassword
-        })
-        .then(function(response) {
-            res = response.data;
-            return response.statusText;
-        })
-        .catch(err => {
-            return err;
-        })
-        
+
+        let sendingData = axios.post('/change/password', {
+                currPassword: this.state.currentPassword,
+                newPassword: this.state.newPassword
+            })
+            .then(function(response) {
+                res = response.data;
+                return response.statusText;
+            })
+            .catch(err => {
+                return err;
+            })
+
         sendingData.then(result => {
-            this.clearForm();;
-            
+            this.clearForm();
+            this.hideAlerts();
+
             if (res === 'success') {
                 document.getElementById('pass-success').style.display = 'block';
             }
@@ -98,11 +99,11 @@ module.exports = class Settings_state extends React.Component {
             }
         });
     }
-    
+
     clearForm() {
         this.setState({ currentPassword: '', newPassword: '' })
     }
-    
+
     hideAlerts() {
         document.getElementById('pass-success').style.display = 'block';
         document.getElementById('pass-error').style.display = 'block';
