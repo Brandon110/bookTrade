@@ -105,8 +105,8 @@ module.exports = class Settings_state extends React.Component {
     }
 
     hideAlerts() {
-        document.getElementById('pass-success').style.display = 'block';
-        document.getElementById('pass-error').style.display = 'block';
+        document.getElementById('pass-success').style.display = 'none';
+        document.getElementById('pass-error').style.display = 'none';
     }
 
     render() {

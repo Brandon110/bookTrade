@@ -22600,7 +22600,8 @@ module.exports = function (_React$Component) {
             });
 
             sendingData.then(function (result) {
-                _this2.clearForm();;
+                _this2.clearForm();
+                _this2.hideAlerts();
 
                 if (res === 'success') {
                     document.getElementById('pass-success').style.display = 'block';
@@ -22613,6 +22614,12 @@ module.exports = function (_React$Component) {
         key: 'clearForm',
         value: function clearForm() {
             this.setState({ currentPassword: '', newPassword: '' });
+        }
+    }, {
+        key: 'hideAlerts',
+        value: function hideAlerts() {
+            document.getElementById('pass-success').style.display = 'none';
+            document.getElementById('pass-error').style.display = 'none';
         }
     }, {
         key: 'render',
