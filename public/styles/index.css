@@ -237,9 +237,16 @@ h5 {
     margin-left: 15px;
 }
 
+.alert-success {
+    display: none;
+    padding: 2px;
+    text-align: center;
+}
+
 .alert-danger {
     display: none;
     padding: 2px;
+    text-align: center
 }
 
 .footer {

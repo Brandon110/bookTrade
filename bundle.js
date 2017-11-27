@@ -22514,7 +22514,9 @@ module.exports = function (_React$Component) {
 
         _this.state = {
             city: '',
-            state: ''
+            state: '',
+            currentPassword: '',
+            newPassword: ''
         };
         return _this;
     }
@@ -22567,6 +22569,52 @@ module.exports = function (_React$Component) {
             });
         }
     }, {
+        key: 'handleCurrentPassword',
+        value: function handleCurrentPassword(e) {
+            this.setState({ currentPassword: e.target.value });
+        }
+    }, {
+        key: 'handleNewPassword',
+        value: function handleNewPassword(e) {
+            this.setState({ newPassword: e.target.value });
+        }
+    }, {
+        key: 'handleChangePassword',
+        value: function handleChangePassword(e) {
+            var _this2 = this;
+
+            e.preventDefault();
+
+            if (!this.state.currentPassword) return false;
+
+            var res = '';
+
+            var sendingData = _axios2.default.post('/change/password', {
+                currPassword: this.state.currentPassword,
+                newPassword: this.state.newPassword
+            }).then(function (response) {
+                res = response.data;
+                return response.statusText;
+            }).catch(function (err) {
+                return err;
+            });
+
+            sendingData.then(function (result) {
+                _this2.clearForm();;
+
+                if (res === 'success') {
+                    document.getElementById('pass-success').style.display = 'block';
+                } else if (res === 'incorrect password') {
+                    document.getElementById('pass-error').style.display = 'block';
+                }
+            });
+        }
+    }, {
+        key: 'clearForm',
+        value: function clearForm() {
+            this.setState({ currentPassword: '', newPassword: '' });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(_settings2.default, {
@@ -22574,7 +22622,12 @@ module.exports = function (_React$Component) {
                 handleCityChange: this.handleCityChange.bind(this),
                 city: this.state.city,
                 handleStateChange: this.handleStateChange.bind(this),
-                state: this.state.state
+                state: this.state.state,
+                handleChangePassword: this.handleChangePassword.bind(this),
+                handleCurrentPassword: this.handleCurrentPassword.bind(this),
+                currPassVal: this.state.currentPassword,
+                handleNewPassword: this.handleNewPassword.bind(this),
+                newPassVal: this.state.newPassword
             });
         }
     }]);
@@ -22604,130 +22657,154 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 module.exports = function (_React$Component) {
-    _inherits(SettingsPage, _React$Component);
+  _inherits(SettingsPage, _React$Component);
 
-    function SettingsPage() {
-        _classCallCheck(this, SettingsPage);
+  function SettingsPage() {
+    _classCallCheck(this, SettingsPage);
 
-        return _possibleConstructorReturn(this, (SettingsPage.__proto__ || Object.getPrototypeOf(SettingsPage)).apply(this, arguments));
-    }
+    return _possibleConstructorReturn(this, (SettingsPage.__proto__ || Object.getPrototypeOf(SettingsPage)).apply(this, arguments));
+  }
 
-    _createClass(SettingsPage, [{
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
+  _createClass(SettingsPage, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
 
-            return _react2.default.createElement(
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Account settings'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'updateAccountData' },
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Update Country or State'
+          ),
+          _react2.default.createElement(
+            'form',
+            { onSubmit: function onSubmit(e) {
+                return _this2.props.handleUpdateSettings(e);
+              } },
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'label',
+                { className: 'col-2 col-form-label', htmlFor: 'city' },
+                'City'
+              ),
+              _react2.default.createElement(
                 'div',
-                { className: 'container' },
+                { className: 'col-10' },
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                    return _this2.props.handleCityChange(e);
+                  }, className: 'form-control', type: 'text', name: 'city', placeholder: 'city', value: this.props.city })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'label',
+                { className: 'col-2 col-form-label', htmlFor: 'state' },
+                'State'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-10' },
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                    return _this2.props.handleStateChange(e);
+                  }, className: 'form-control', type: 'text', name: 'state', placeholder: 'state', value: this.props.state })
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', className: 'btn btn-primary' },
+              'Update'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'updateAccountData' },
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Change Password'
+          ),
+          _react2.default.createElement(
+            'form',
+            { onSubmit: function onSubmit(e) {
+                return _this2.props.handleChangePassword(e);
+              } },
+            _react2.default.createElement(
+              'div',
+              { id: 'pass-success', className: 'alert alert-success' },
+              _react2.default.createElement(
+                'span',
+                null,
+                'Succesfully Changed Password!'
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'label',
+                { className: 'col-2 col-form-label', htmlFor: 'current_password' },
+                'Current Password'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-10' },
                 _react2.default.createElement(
-                    'h1',
+                  'div',
+                  { id: 'pass-error', className: 'alert alert-danger' },
+                  _react2.default.createElement(
+                    'span',
                     null,
-                    'Account settings'
+                    'Incorrect password.'
+                  )
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'updateAccountData' },
-                    _react2.default.createElement(
-                        'h3',
-                        null,
-                        'Update Country or State'
-                    ),
-                    _react2.default.createElement(
-                        'form',
-                        { onSubmit: function onSubmit(e) {
-                                return _this2.props.handleUpdateSettings(e);
-                            } },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'form-group row' },
-                            _react2.default.createElement(
-                                'label',
-                                { className: 'col-2 col-form-label', htmlFor: 'city' },
-                                'City'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-10' },
-                                _react2.default.createElement('input', { onChange: function onChange(e) {
-                                        return _this2.props.handleCityChange(e);
-                                    }, className: 'form-control', type: 'text', name: 'city', placeholder: 'city', value: this.props.city })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'form-group row' },
-                            _react2.default.createElement(
-                                'label',
-                                { className: 'col-2 col-form-label', htmlFor: 'state' },
-                                'State'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-10' },
-                                _react2.default.createElement('input', { onChange: function onChange(e) {
-                                        return _this2.props.handleStateChange(e);
-                                    }, className: 'form-control', type: 'text', name: 'state', placeholder: 'state', value: this.props.state })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'button',
-                            { type: 'submit', className: 'btn btn-primary' },
-                            'Update'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'updateAccountData' },
-                    _react2.default.createElement(
-                        'h3',
-                        null,
-                        'Change Password'
-                    ),
-                    _react2.default.createElement(
-                        'form',
-                        { method: 'post', action: '/change/password' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'form-group row' },
-                            _react2.default.createElement(
-                                'label',
-                                { className: 'col-2 col-form-label', htmlFor: 'current_password' },
-                                'Current Password'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-10' },
-                                _react2.default.createElement('input', { className: 'form-control', type: 'password', name: 'current_password', placeholder: 'current password' })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'form-group row' },
-                            _react2.default.createElement(
-                                'label',
-                                { className: 'col-2 col-form-label', htmlFor: 'new_password' },
-                                'New Password'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-10' },
-                                _react2.default.createElement('input', { className: 'form-control', type: 'password', name: 'new_password', placeholder: 'new password' })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'button',
-                            { type: 'submit', className: 'btn btn-primary' },
-                            'Change Password'
-                        )
-                    )
-                )
-            );
-        }
-    }]);
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                    return _this2.props.handleCurrentPassword(e);
+                  }, className: 'form-control', type: 'password', placeholder: 'current password', value: this.props.currPassVal, required: true })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'label',
+                { className: 'col-2 col-form-label', htmlFor: 'new_password' },
+                'New Password'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-10' },
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                    return _this2.props.handleNewPassword(e);
+                  }, className: 'form-control', type: 'password', placeholder: 'new password', value: this.props.newPassVal })
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', className: 'btn btn-primary' },
+              'Change Password'
+            )
+          )
+        )
+      );
+    }
+  }]);
 
-    return SettingsPage;
+  return SettingsPage;
 }(_react2.default.Component);
 
 /***/ }),

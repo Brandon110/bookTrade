@@ -1,6 +1,6 @@
 import React from 'react';
 
-module.exports  = class SettingsPage extends React.Component {
+module.exports = class SettingsPage extends React.Component {
     render() {
         return (
             <div className='container'>
@@ -28,18 +28,24 @@ module.exports  = class SettingsPage extends React.Component {
             
             <div className='updateAccountData'>
             <h3>Change Password</h3>
-            <form method='post' action='/change/password'>
+            <form onSubmit={(e) => this.props.handleChangePassword(e)}>
+               <div id='pass-success' className='alert alert-success'>
+            <span>Succesfully Changed Password!</span>
+            </div>
              <div className='form-group row'>
              <label className='col-2 col-form-label' htmlFor='current_password'>Current Password</label>
              <div className='col-10'>
-             <input className='form-control' type='password' name='current_password' placeholder='current password' />
+            <div id='pass-error' className='alert alert-danger'>
+            <span>Incorrect password.</span>
+            </div>
+             <input onChange={(e) => this.props.handleCurrentPassword(e)} className='form-control' type='password' placeholder='current password' value={this.props.currPassVal} required/>
              </div>
              </div>
              
              <div className='form-group row'>
              <label className='col-2 col-form-label' htmlFor='new_password'>New Password</label>
              <div className='col-10'>
-             <input className='form-control' type='password' name='new_password' placeholder='new password' />
+             <input onChange={(e) => this.props.handleNewPassword(e)} className='form-control' type='password' placeholder='new password' value={this.props.newPassVal} />
              </div>
              </div>
              <button type='submit' className='btn btn-primary'>Change Password</button>

@@ -26,9 +26,9 @@ app.post('/change/password', (req, res) => {
         if (err) return err;
 
         const checkIfPasswordMatchesHash = () => {
-            bcrypt.compare(req.body.current_password, user.password).then(function(result) {
+            bcrypt.compare(req.body.currPassword, user.password).then(function(result) {
                 if (result === false) {
-                    res.send('error: incorrect password')
+                    res.send('incorrect password')
                 }
                 else {
                     changePassword();
@@ -40,7 +40,7 @@ app.post('/change/password', (req, res) => {
         const changePassword = () => {
             bcrypt.genSalt(saltRounds, function(err, salt) {
                 if (err) return err;
-                bcrypt.hash(req.body.new_password, salt, function(err, hash) {
+                bcrypt.hash(req.body.newPassword, salt, function(err, hash) {
                     if (err) return err;
                     userModel.findOneAndUpdate({ 'email': user.email }, {
                             $set: {
@@ -50,7 +50,7 @@ app.post('/change/password', (req, res) => {
                         (err, updated) => {
                             if (err) return err;
 
-                            res.redirect('/settings');
+                            res.send('success');
                         });
                 });
             });

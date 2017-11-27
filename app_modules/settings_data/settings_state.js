@@ -8,7 +8,9 @@ module.exports = class Settings_state extends React.Component {
 
         this.state = {
             city: '',
-            state: ''
+            state: '',
+            currentPassword: '',
+            newPassword: ''
         }
     }
 
@@ -57,6 +59,49 @@ module.exports = class Settings_state extends React.Component {
                 return err;
             })
     }
+    
+     handleCurrentPassword(e) {
+      this.setState({ currentPassword: e.target.value });   
+    }
+    
+    handleNewPassword(e) {
+      this.setState({ newPassword: e.target.value });
+    }
+    
+    handleChangePassword(e) {
+        e.preventDefault();
+        
+        if(!this.state.currentPassword) return false;
+        
+        let res = '';
+    
+    let sendingData = axios.post('/change/password', {
+            currPassword: this.state.currentPassword,
+            newPassword: this.state.newPassword
+        })
+        .then(function(response) {
+            res = response.data;
+            return response.statusText;
+        })
+        .catch(err => {
+            return err;
+        })
+        
+        sendingData.then(result => {
+            this.clearForm();;
+            
+            if (res === 'success') {
+                document.getElementById('pass-success').style.display = 'block';
+            }
+            else if (res === 'incorrect password') {
+                document.getElementById('pass-error').style.display = 'block';
+            }
+        });
+    }
+    
+    clearForm() {
+        this.setState({ currentPassword: '', newPassword: '' })
+    }
 
     render() {
         return <SettingsPage 
@@ -65,6 +110,11 @@ module.exports = class Settings_state extends React.Component {
             city={this.state.city}
             handleStateChange={this.handleStateChange.bind(this)}
             state={this.state.state}
+            handleChangePassword={this.handleChangePassword.bind(this)}
+            handleCurrentPassword={this.handleCurrentPassword.bind(this)}
+            currPassVal={this.state.currentPassword}
+            handleNewPassword={this.handleNewPassword.bind(this)}
+            newPassVal={this.state.newPassword}
             />
     }
 }
