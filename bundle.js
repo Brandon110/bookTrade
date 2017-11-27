@@ -21925,7 +21925,7 @@ module.exports = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'row' },
+                        { className: 'row', style: { margin: '20px;', padding: '1rem' } },
                         _react2.default.createElement(
                             'div',
                             { className: 'col-md-4' },

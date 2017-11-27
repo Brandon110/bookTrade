@@ -9,10 +9,10 @@ module.exports = class HomePage extends React.Component {
         <h4>Trade and manage books</h4>
         <i className='fa fa-bookmark-o'></i>
         </div>
-        
+ 
         <div className='container'>
         <h1>Features:</h1>
-        <div className='row'>
+        <div className='row' style={{margin: '20px;', padding: '1rem'}}>
         <div className='col-md-4'>
         <p><b>View all books users added</b></p>
         </div>
